@@ -2,10 +2,16 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Basket {
+public class Basket implements Serializable {
     String[] products;
     int[] prices;
     int[] basketCount;
+
+    public Basket(String[] products, int[] prices) {
+        this.products = products;
+        this.prices = prices;
+        this.basketCount = new int[3];
+    }
 
     public Basket(String[] products, int[] prices, int[] basketCount) {
         this.products = products;
@@ -26,7 +32,7 @@ public class Basket {
         }
     }
 
-    public void saveTxt(File textFile) throws FileNotFoundException {
+    void saveTxt(File textFile) throws FileNotFoundException {
         try (PrintWriter out = new PrintWriter(textFile)) {
             for (String product : products) {
                 out.print(product + " ");
@@ -53,7 +59,27 @@ public class Basket {
             int[] basketCount = Arrays.stream(scanner.nextLine().split(" "))
                     .mapToInt(Integer::parseInt)
                     .toArray();
-            return new Basket(products, prices, basketCount);
+            return new Basket(products, prices);
         }
+    }
+
+    public void saveBin(File file) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            objectOutputStream.writeObject(this);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static Basket loadFromBinFile(File file) {
+        Basket basket;
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            basket = (Basket) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return basket;
     }
 }

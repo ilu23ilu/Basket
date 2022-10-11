@@ -1,20 +1,21 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         int[] basketCount = new int[3];
         String[] products = {"Хлеб", "Крупа", "Молоко"};
         int[] prices = {30, 70, 50};
-        File file = new File("basket.txt");
+        File file = new File("basket.bin");
         Basket basket = null;
         if (file.exists()) {
-            basket = Basket.loadFromTxtFile(file);
+            basket = Basket.loadFromBinFile(file);
         } else {
-            basket = new Basket(products, prices, basketCount);
+            basket = new Basket(products, prices);
         }
         System.out.println("Список возможных товаров для покупки: ");
         for (int i = 0; i < products.length; i++) {
@@ -38,7 +39,7 @@ public class Main {
             basket.addToCart(productNum, count);
 
         }
-        basket.saveTxt(file);
+        basket.saveBin(file);
         basket.printCart();
         System.out.println("Итого: " + sumProducts + " " + "рублей.");
         System.out.println("Программа завершена! ");
