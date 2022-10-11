@@ -5,7 +5,7 @@ import java.io.StreamCorruptedException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int[] basketCount = new int[3];
         String[] products = {"Хлеб", "Крупа", "Молоко"};

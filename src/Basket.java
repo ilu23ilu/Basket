@@ -3,9 +3,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Basket implements Serializable {
-    String[] products;
-    int[] prices;
-    int[] basketCount;
+    private String[] products;
+    private int[] prices;
+    private int[] basketCount;
 
     public Basket(String[] products, int[] prices) {
         this.products = products;
