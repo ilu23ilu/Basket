@@ -60,21 +60,17 @@ public class Basket {
         }
     }
     public void saveJson(File jsonFile) throws IOException {
-        try (FileWriter writer = new FileWriter(jsonFile, true)) {
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            writer.write(gson.toJson(this));
+        try (PrintWriter out = new PrintWriter(jsonFile)) {
+            Gson gson = new Gson();
+            String json = gson.toJson(this);
+            out.println(json);
         }
     }
 
     public static Basket loadFromJson(File jsonFile) throws IOException {
-        if (jsonFile.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(jsonFile));) {
-                GsonBuilder builder = new GsonBuilder();
-                Gson gson = builder.create();
-                return gson.fromJson(br.readLine(), Basket.class);
-            }
-        }
-        return null;
+        try (Scanner scanner = new Scanner(jsonFile)) {
+            String json = scanner.nextLine();
+            Gson gson = new Gson();
+            return gson.fromJson(json, Basket.class);}
     }
 }

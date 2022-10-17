@@ -1,18 +1,7 @@
-import au.com.bytecode.opencsv.CSVWriter;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ClientLog {
     private File txtFile;
@@ -31,7 +20,7 @@ public class ClientLog {
             Scanner scan = new Scanner(txtFile);
             File csv = new File("log.csv");
             txtFile.createNewFile();
-            writer = new FileWriter(csv);
+            writer = new FileWriter(csv, true);
             writer.append("productNum, amount" + "\n");
             while (scan.hasNext()) {
                 String csvStr = scan.nextLine().replace("|", ",");

@@ -1,10 +1,9 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NullPointerException {
         Scanner scanner = new Scanner(System.in);
         int[] basketCount = new int[3];
         String[] products = {"Хлеб", "Крупа", "Молоко"};
@@ -13,7 +12,7 @@ public class Main {
         File file = new File("basket.json");
         Basket basket = null;
         if (file.exists()) {
-            basket.loadFromJson(file);
+            basket = Basket.loadFromJson(file);
         } else {
             basket = new Basket(products, prices, basketCount);
         }
@@ -36,8 +35,9 @@ public class Main {
             count = Integer.parseInt(parts[1]);
             int sum = count * prices[productNum];
             sumProducts += sum;
-            clientLog.log(productNum, count);
             basket.addToCart(productNum, count);
+            clientLog.log(productNum, count);
+
 
         }
         basket.saveJson(file);
