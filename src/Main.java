@@ -9,10 +9,11 @@ public class Main {
         int[] basketCount = new int[3];
         String[] products = {"Хлеб", "Крупа", "Молоко"};
         int[] prices = {30, 70, 50};
-        File file = new File("basket.txt");
+        ClientLog clientLog = new ClientLog();
+        File file = new File("basket.json");
         Basket basket = null;
         if (file.exists()) {
-            basket = Basket.loadFromTxtFile(file);
+            basket.loadFromJson(file);
         } else {
             basket = new Basket(products, prices, basketCount);
         }
@@ -35,11 +36,13 @@ public class Main {
             count = Integer.parseInt(parts[1]);
             int sum = count * prices[productNum];
             sumProducts += sum;
+            clientLog.log(productNum, count);
             basket.addToCart(productNum, count);
 
         }
-        basket.saveTxt(file);
+        basket.saveJson(file);
         basket.printCart();
+        clientLog.exportAsCSV(file);
         System.out.println("Итого: " + sumProducts + " " + "рублей.");
         System.out.println("Программа завершена! ");
     }
